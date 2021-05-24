@@ -1,0 +1,50 @@
+body {
+  background-color: purple;
+}
+
+#score {
+  background-color: pink;
+  border: 5px solid black;
+  position: absolute;
+  left: 300px;
+  top: 0px;
+}
+
+#board {
+  top: 140px;
+  width: 800px;
+  height: 440px;
+  border: 5px solid rgb(163, 6, 66);
+  background-color: black;
+  position: absolute;
+}
+
+#ball {
+  background-color: pink;
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+  position: relative;
+  left: 40px;
+  top: 10px;
+}
+
+#leftPaddle {
+    background-color: red;
+    width: 30px;
+    height: 150px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+#rightPaddle {
+    background-color: red;
+    width: 30px;
+    height: 150px;
+    position: absolute;
+    left: 770px;
+    top: 0px;
+/*   left: 100px; */  /* Uncomment if you want to set a "starting" position */
+/*   top: 100px;  */  /* Uncomment if you want to set a "starting" position */
+}
