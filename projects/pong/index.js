@@ -18,6 +18,12 @@ function runProgram(){
         "W": 87
   };
   const maxPoints = 11;
+  const pointIncreaseAmount = 1;
+  const maxPaddleSpeed = 15;
+  const minPaddleSpeed = 0;
+  const minPosition = 0;
+  const ballSpeed = 2;
+  const ballSpeedIncrease = 1.5;
   
   // Game Item Objects
     var player1Points = 0;
@@ -60,31 +66,31 @@ function handleKeyDown(keydown) {
         ball.speedX = 3;
         ball.speedY = 3;
     }else if(keydown.which === KEY.UP) {
-        leftPaddle.speedY = -15;
+        leftPaddle.speedY = -maxPaddleSpeed;
         leftPaddle.y += leftPaddle.speedY;
     }else if (keydown.which === KEY.DOWN) {
-        leftPaddle.speedY = 15;
+        leftPaddle.speedY = maxPaddleSpeed;
         leftPaddle.y += leftPaddle.speedY;
     }else if (keydown.which === KEY.W) {
-        rightPaddle.speedY = -15;
+        rightPaddle.speedY = -maxPaddleSpeed;
         rightPaddle.y += rightPaddle.speedY;
     }else if (keydown.which === KEY.S) {
-        rightPaddle.speedY = 15;
+        rightPaddle.speedY = maxPaddleSpeed;
         rightPaddle.y += rightPaddle.speedY;
     }         
   }
   function handleKeyUp(keyup) {
     if (keyup.which === KEY.UP) {
-        leftPaddle.speedY = 0;
+        leftPaddle.speedY = minPaddleSpeed;
         leftPaddle.y += leftPaddle.speedY;
     }else if (keyup.which === KEY.DOWN) {
-        leftPaddle.speedY = 0;
+        leftPaddle.speedY = minPaddleSpeed;
         leftPaddle.y += leftPaddle.speedY;
     }else if (keyup.which === KEY.W) {
-        rightPaddle.speedY = 0;
+        rightPaddle.speedY = minPaddleSpeed;
         rightPaddle.y += rightPaddle.speedY;
     }else if (keyup.which === KEY.S) {
-        rightPaddle.speedY = 0;
+        rightPaddle.speedY = minPaddleSpeed;
         rightPaddle.y += rightPaddle.speedY;
     }
   }
@@ -115,8 +121,8 @@ function handleKeyDown(keydown) {
     gameObject.y = Number($($elementId).css('top').replace(/[^-\d\.]/g, ''));
     gameObject.width = $($elementId).width();
     gameObject.height = $($elementId).height();
-    gameObject.speedX = 0;
-    gameObject.speedY = 0;
+    gameObject.speedX = minPaddleSpeed;
+    gameObject.speedY = minPaddleSpeed;
     return gameObject;
   }
 
@@ -132,11 +138,11 @@ function handleKeyDown(keydown) {
   }
 
   function repositionPaddles(){
-    if (leftPaddle.y < 0){
-        leftPaddle.y = 0;
+    if (leftPaddle.y < board.topY){
+        leftPaddle.y = board.topY;
     }
-    if (rightPaddle.y < 0){
-        rightPaddle.y = 0;
+    if (rightPaddle.y < minPosition){
+        rightPaddle.y = minPosition;
     }
     if (leftPaddle.y + leftPaddle.height > board.height){
         leftPaddle.y = board.height - leftPaddle.height;
@@ -150,32 +156,32 @@ function handleKeyDown(keydown) {
     ball.x += ball.speedX;
     ball.y += ball.speedY;
 
-    if (ball.y <= 0){
+    if (ball.y <= minPosition){
         ball.speedY = -ball.speedY;
     }
     if (ball.y >= board.height - ball.height ){
         ball.speedY = -ball.speedY
     }
-    if(ball.x <= 0){
-        player2Points += 1;
+    if(ball.x <= minPosition){
+        player2Points += pointIncreaseAmount;
         ball.x = board.width / 2;
         ball.y = ball.height / 2;
-        ball.speedX = 2;
+        ball.speedX = ballSpeed;
         }
     if(ball.x + ball.width >= board.width){
-        player1Points += 1;
+        player1Points += pointIncreaseAmount;
         ball.x = (board.width + ball.width) / 2;
         ball.y = (ball.height +board.height) / 2;
-        ball.speedX = -2; 
+        ball.speedX = -ballSpeed; 
     }
 }
 
   function redrawGameItems(){
-    if (leftPaddle.y < 0){
-        leftPaddle.y = 0;
+    if (leftPaddle.y < minPosition){
+        leftPaddle.y = minPosition;
     }
-    if (rightPaddle.y < 0){
-        rightPaddle.y = 0;
+    if (rightPaddle.y < minPosition){
+        rightPaddle.y = minPosition;
     }
     if (leftPaddle.y + leftPaddle.height > board.height){
        leftPaddle.y = board.height - leftPaddle.height;
@@ -203,7 +209,7 @@ function handleKeyDown(keydown) {
     obj2.rightX = obj2.x + obj2.width;
     // TODO: Return true if they are overlapping, false otherwise
     if ((obj1.rightX > obj2.leftX) && (obj1.leftX < obj2.rightX) && (obj1.topY < obj2.bottomY) && (obj1.bottomY > obj2.topY)){
-       ball.speedX *= -1.5;
+       ball.speedX *= -ballSpeedIncrease;
     } 
         
   }
